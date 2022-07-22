@@ -8,6 +8,7 @@
     --color5: rgb(186, 104, 10);
     /* SVGs */
     --svgX: url("./public/restart.svg");
+    --svgG: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyLDRDMTQuMSw0IDE2LjEsNC44IDE3LjYsNi4zQzIwLjcsOS40IDIwLjcsMTQuNSAxNy42LDE3LjZDMTUuOCwxOS41IDEzLjMsMjAuMiAxMC45LDE5LjlMMTEuNCwxNy45QzEzLjEsMTguMSAxNC45LDE3LjUgMTYuMiwxNi4yQzE4LjUsMTMuOSAxOC41LDEwLjEgMTYuMiw3LjdDMTUuMSw2LjYgMTMuNSw2IDEyLDZWMTAuNkw3LDUuNkwxMiwwLjZWNE02LjMsMTcuNkMzLjcsMTUgMy4zLDExIDUuMSw3LjlMNi42LDkuNEM1LjUsMTEuNiA1LjksMTQuNCA3LjgsMTYuMkM4LjMsMTYuNyA4LjksMTcuMSA5LjYsMTcuNEw5LDE5LjRDOCwxOSA3LjEsMTguNCA2LjMsMTcuNloiIC8+PC9zdmc+")
 }
 
 
@@ -81,9 +82,9 @@
     border: 0;
 }
 
-#form>div.xo>input[type=radio]:nth-child(1) {
-    background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><linearGradient id='gradient'><stop offset='10%' stop-color='%23F00'/><stop offset='90%' stop-color='%23fcc'/> </linearGradient><rect fill='url(%23gradient)' x='0' y='0' width='100%' height='100%'/></svg>")
+body>main>div:nth-child(1)>button {
+    background-image: var(--svgG);
+    background-repeat: no-repeat;
 }
 
 /* Button used to open the contact form - fixed at the bottom of the page */
