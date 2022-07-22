@@ -22,3 +22,8 @@ Reset board button
 Keep Track of player scores + ties;
 NEW GAME restarts
 
+
+Card Logic:
+Starts off at Player One
+Player two
+
