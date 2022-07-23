@@ -1,41 +1,45 @@
 const Player = function (name, symbol, icon) {
+    'use strict';
 
-    let score = 0
+    let score = 0;
     let ass = 'OrignalAss'
 
-    let logAss = () => {
-        console.log(ass)
-    };
+    const playerMethods = {
+        logAss() {
+            console.log(ass)
+        },
+        plus() {
+            score++
 
-    let plus = (score) => {
-        score++
+            console.log(score);
+        },
+        context() {
+            console.log(this)
+        }
     }
 
     return {
         name,
         Symbol,
-        icon,
         score,
-        plus: plus.bind(this),
-        logAss
-
+        icon,
+        playerMethods,
     };
 };
 
 const jeff = Player('Jeff', 1, 2);
 
-jeff.ass = "Biggest Ass in the UK"
-console.log(jeff)
-jeff.ass = 5
-jeff.logAss()
-jeff.plus()
+
+jeff.playerMethods.plus()
 console.log(jeff.score);
-jeff.plus()
-jeff.plus()
-jeff.plus()
+jeff.playerMethods.plus()
+jeff.playerMethods.plus()
+jeff.playerMethods.plus()
 console.log(jeff.score);
 jeff.score = 100
-console.log(jeff)
+console.log(jeff.score);
+
+
 
 const dom = (() => {
     'use strict';
