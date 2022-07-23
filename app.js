@@ -1,79 +1,90 @@
-const Player = function (name, symbol, icon) {
-    'use strict';
+// const game = (() => {
+// })()
 
-    let score = 0;
-    let ass = 'OrignalAss'
-
-    const playerMethods = {
-        logAss() {
-            console.log(ass)
-        },
-        plus() {
-            score++
-
-            console.log(score);
-        },
-        context() {
-            console.log(this)
+    const Player = function (name, playerSymbol, icon) {
+        'use strict';
+    
+        let _score = 0;
+        let _moves = [];
+        let _name = name;
+    
+        let _propObj = {
+            playerSymbol,
+            icon,
+            score: _score,
+            moves: _moves,
+            name: _name,
         }
-    }
-
-    return {
-        name,
-        Symbol,
-        score,
-        icon,
-        playerMethods,
+    
+        const addScore = () => {  _score++ }
+        const getAllProps = () => {
+         
+            return _propObj 
+        }
+        const getProp = (prop) => {
+            return _propObj[prop]
+        }
+    
+        const addMove = (move) => {
+   
+            if (typeof move == 'number' && 0 <= move && 9 > move)
+            {
+                _moves.push(move)
+            }
+            else { return new Error(`Error pushing to array: argument passed was ${move}`)}
+        
+        }
+        return {
+            addScore,
+            getAllProps,
+            getProp,
+            addMove
+        };
     };
-};
-
-const jeff = Player('Jeff', 1, 2);
-
-
-jeff.playerMethods.plus()
-console.log(jeff.score);
-jeff.playerMethods.plus()
-jeff.playerMethods.plus()
-jeff.playerMethods.plus()
-console.log(jeff.score);
-jeff.score = 100
-console.log(jeff.score);
 
 
 
-const dom = (() => {
-    'use strict';
-
-    //Private Vars
-    const form = document.getElementById("form")
-
-    //Public Vars
-    let _privateProp = "Big Dog"
-    let publicProp = _privateProp
-
-    let _privateProp2 = "Big Cat"
-    let publicProp2 = _privateProp2
 
 
-    //Private Methods
-    let _privateFunction = () => {
-        console.log([1, 2, 3, 4])
-        return ['one,two'];
-    }
+const jeff = Player('jeff', '1337', '666')
+console.log(jeff);
 
-    //Public Methods
-    let publicFunction = () => {
-        return _privateFunction()
-    }
-    //Returning Moudles Methods and Props
-    return {
-        publicProp,
-        publicProp2,
-        publicFunction,
-        ass: "dog"
-    }
 
-})();
+
+
+// const dom = (() => {
+//     'use strict';
+
+//     //Private Vars
+//     const _form = document.getElementById("form")
+//     let _privateProp = "Big Dog"
+//     let _privateProp2 = "Big Cat"
+
+//     //Public Vars
+//     let publicProp = _privateProp
+//     let publicProp2 = _privateProp2
+    
+
+
+//     //Private Methods
+//     let _privateFunction = () => {
+//         console.log([1, 2, 3, 4])
+//         return ['one,two'];
+//     }
+
+//     //Public Methods
+//     let publicFunction = () => {
+//         return _privateFunction()
+//     }
+//     //Returning Moudles Methods and Props
+//     return {
+//         publicProp,
+//         publicProp2,
+//         publicFunction,
+//         ass: "dog"
+//     }
+
+// })();
 
 // console.log(dom.publicFunction());
 
