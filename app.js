@@ -94,6 +94,7 @@ const game = ( () => {
     const handleClick = (event) => {
         let cellValue = event.path[0].attributes[0].value;
         console.log(_currentPlayer);
+        console.log(cellValue);
         _currentPlayer.addMove(cellValue)
     
 
