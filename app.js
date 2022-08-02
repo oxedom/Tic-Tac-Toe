@@ -1,4 +1,22 @@
- const Player = function (name, icon, avatar) {
+const libs = (() => {
+
+    const getFormData = (event) => {
+        const formData = new FormData(event.target)
+        const formProps = Object.fromEntries(formData)
+        return formProps
+    }
+
+    return {
+        getFormData
+    }
+
+})()
+
+
+
+
+
+const Player = function (name) {
         'use strict';
     
         let _score = 0;
@@ -6,14 +24,14 @@
         let _name = name;
     
         let _propObj = {
-            icon,
-            avatar,
+
             score: _score,
             moves: _moves,
             name: _name,
         }
     
         const addScore = () => {  _score++ }
+
         const getAllProps = () => {
          
             return _propObj 
@@ -32,6 +50,7 @@
         
         }
         return {
+            _propObj,
             addScore,
             getAllProps,
             getProp,
@@ -46,52 +65,32 @@ const jeff = Player('jeff', '1337', '666')
 const dom = (() => {
         'use strict';
 
+        const _players = []
         //Private Vars
         const _form = document.getElementById("form")
-
-
-        
-       
-        let _privateProp = "Big Dog"
-        let _privateProp2 = "Big Cat"
-        // console.log('1')
-        //Public Vars
-        let publicProp = _privateProp
-        let publicProp2 = _privateProp2
-        
-    
-    
-        //Private Methods
-        let _privateFunction = () => {
-            console.log([1, 2, 3, 4])
-            return ['one,two'];
-        }
-    
-        //Public Methods
-        let publicFunction = () => {
-            return _privateFunction()
-        }
-        
         let renderScore = () => {    
          
-           
-
         }
-    
-        //TEST
+
         _form.addEventListener("submit", (e) => {
             e.preventDefault()
-            console.log(e.target);
-            const formData = new FormData(e.target)
-            const formProps = Object.fromEntries(formData)
-            console.log(formProps)
-    })
+            if(_players.length < 2) {
+                const data = libs.getFormData(e)
+                const newPlayer = Player(data.playerName)
+                _players.push(newPlayer)
+            }
+            else {
+                //Hides start card after two players have been added 
+                _form.parentElement.classList.add("hideClass")
+            }
+
+
+
+        })
+    
+
         //Returning Moudles Methods and Props
         return {
-            publicProp,
-            publicProp2,
-            publicFunction,
-            renderScore
         }
 
      
@@ -100,10 +99,6 @@ const dom = (() => {
     })();
     
     
-
-dom.renderScore()
-dom.renderScore()
-dom.renderScore()
 
 
 
