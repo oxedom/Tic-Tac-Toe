@@ -6,8 +6,18 @@ const libs = (() => {
         return formProps
     }
 
+
+    const cellGetter = (boardElement) => {
+        const nodes = []
+        boardElement.childNodes.forEach(node => { if(node.className == "cell") { nodes.push(node)}})
+
+        return nodes
+    }
+
+
     return {
-        getFormData
+        getFormData,
+        cellGetter
     }
 
 })()
@@ -57,18 +67,24 @@ const Player = function (name) {
     
 const game = ( () => {
 
+    const _currentPlayer = 0
     const _board = []
     const _players = []
 
+    const tooglePlayer = () => {
+        if (_currentPlayer === 0) { _currentPlayer = 1} 
+        else { _currentPlayer = 0}
+    }
     const addPlayer = (playerObj) => {
         
-        if(_players.length < 2) {
+        if(_players.length < 1) {
             const player = Player(playerObj.playerName)
             _players.push(player)
             console.log(_players);
         }
         else {
             dom.hideForm()
+            dom.showBoard()
         }
 
     const checkGame = (player) => {
@@ -76,8 +92,12 @@ const game = ( () => {
     }    
     }
 
+    const handleClick = (event) => {
+        let cellValue = event.path[0].attributes[0].value;
+        _players[_currentPlayer].addMove(cellValue)
+    }
 
-    return { addPlayer}
+    return { addPlayer, handleClick}
 
 
 })()
@@ -85,9 +105,15 @@ const game = ( () => {
 
 const dom = (() => {
     'use strict';
-
+   
     //Private Vars
     const _form = document.getElementById("form")
+    const _board = document.getElementById("board")
+    const _cells = libs.cellGetter(_board)
+    
+    _cells.forEach(cell => cell.addEventListener('click', (e) => {
+        game.handleClick(e)}))
+
     let renderScore = () => {    
      
     }
@@ -100,9 +126,23 @@ const dom = (() => {
             _form.parentElement.style.display = "none"
         }
     }
+
+
+    const toogleBoard = () => {
+        if(_board.parentElement.style.display === "none") {
+            _board.parentElement.style.display = "block"
+        }
+        else {
+            _board.parentElement.style.display = "none"
+        }
+    }
+
+
     const hideForm = () => {_form.parentElement.style.display = "none"}
     const showForm = () => {_form.parentElement.style.display = "block"}   
 
+    const hideBoard = () => {_board.style.display = "none"}
+    const showBoard = () => {_board.style.display = "block"}
 
 
     _form.addEventListener("submit", (e) => {
@@ -113,17 +153,20 @@ const dom = (() => {
 
     })
 
+    //init
 
     //Returning Moudles Methods and Props
     return {
         toogleForm,
+        toogleBoard,
         hideForm,
-        showForm
+        showForm,
+        showBoard,
+        hideBoard
     }
 
  
     
-
 })();
 
 
