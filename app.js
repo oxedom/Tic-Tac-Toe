@@ -1,15 +1,35 @@
-import { libs } from "./libs";
+const libs = (() => {
+
+    const getFormData = (event) => {
+        const formData = new FormData(event.target)
+        const formProps = Object.fromEntries(formData)
+        return formProps
+    }
+
+
+    const cellGetter = (boardElement) => {
+        const nodes = []
+        boardElement.childNodes.forEach(node => { if(node.className == "cell") { nodes.push(node)}})
+
+        return nodes
+    }
+
+
+    return {
+        getFormData,
+        cellGetter
+    }
+
+})()
 
 
 const Player = function (name) {
         'use strict';
-    
         let _score = 0;
         let _moves = [];
         let _name = name;
-    
-        let _propObj = {
 
+        let _propObj = {
             score: _score,
             moves: _moves,
             name: _name,
@@ -17,16 +37,11 @@ const Player = function (name) {
     
         const addScore = () => {  _score++ }
 
-        const getAllProps = () => {
-         
-            return _propObj 
-        }
-        const getProp = (prop) => {
-            return _propObj[prop]
-        }
+        const getAllProps = () => {  return _propObj }
+
+        const getProp = (prop) => {  return _propObj[prop]}
     
         const addMove = (move) => {
-   
             if (typeof move == 'number' && 0 <= move && 9 > move)
             {
                 _moves.push(move)
@@ -45,24 +60,24 @@ const Player = function (name) {
     
 const game = ( () => {
 
-    const _currentPlayer = 0
-    const _board = []
     const _players = []
+    let _currentPlayer = undefined;
 
     const tooglePlayer = () => {
-        if (_currentPlayer === 0) { _currentPlayer = 1} 
-        else { _currentPlayer = 0}
+        if ( _currentPlayer === undefined) { return new Error('Current P is undefined')}
+        if (_currentPlayer === _players[0]) { _currentPlayer = _players[1]} 
+        else { _currentPlayer = _players[0]}
     }
     const addPlayer = (playerObj) => {
         
         if(_players.length < 1) {
             const player = Player(playerObj.playerName)
             _players.push(player)
-            console.log(_players);
         }
         else {
-            dom.hideForm()
-            dom.showBoard()
+            _currentPlayer = _players[0]
+            dom.hideEl('formContainer')
+            dom.showEl('board')
         }
 
     const checkGame = (player) => {
@@ -81,6 +96,12 @@ const game = ( () => {
 })()
 
 
+const board = (() => {
+
+    
+})
+
+
 const dom = (() => {
     'use strict';
    
@@ -89,58 +110,24 @@ const dom = (() => {
     const _board = document.getElementById("board")
     const _cells = libs.cellGetter(_board)
     
-    _cells.forEach(cell => cell.addEventListener('click', (e) => {
-        game.handleClick(e)}))
+    _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleClick(e)}))
 
-    let renderScore = () => {    
-     
-    }
-
-    const toogleForm = () => {
-        if(_form.parentElement.style.display === "none") {
-            _form.parentElement.style.display = "block"
-        }
-        else {
-            _form.parentElement.style.display = "none"
-        }
-    }
-
-
-    const toogleBoard = () => {
-        if(_board.parentElement.style.display === "none") {
-            _board.parentElement.style.display = "block"
-        }
-        else {
-            _board.parentElement.style.display = "none"
-        }
-    }
-
-
-    const hideForm = () => {_form.parentElement.style.display = "none"}
-    const showForm = () => {_form.parentElement.style.display = "block"}   
-
-    const hideBoard = () => {_board.style.display = "none"}
-    const showBoard = () => {_board.style.display = "block"}
-
-
+    //Gets new user Data from Form sends it to Game OBJ to addPlayer and Resets Form
     _form.addEventListener("submit", (e) => {
         e.preventDefault()
         const data = libs.getFormData(e)
         game.addPlayer(data)
         _form.reset()
-
     })
 
+    const showEl = (el) => { document.getElementById(el).classList.remove('hideClass')}
+    const hideEl = (el) => { document.getElementById(el).classList.add('hideClass')}
     //init
 
     //Returning Moudles Methods and Props
     return {
-        toogleForm,
-        toogleBoard,
-        hideForm,
-        showForm,
-        showBoard,
-        hideBoard
+        showEl,
+        hideEl
     }
 
  
