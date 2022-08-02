@@ -13,9 +13,6 @@ const libs = (() => {
 })()
 
 
-
-
-
 const Player = function (name) {
         'use strict';
     
@@ -50,7 +47,6 @@ const Player = function (name) {
         
         }
         return {
-            _propObj,
             addScore,
             getAllProps,
             getProp,
@@ -58,50 +54,77 @@ const Player = function (name) {
         };
     };
 
-const jeff = Player('jeff', '1337', '666')
+    
+const game = ( () => {
 
+    const _board = []
+    const _players = []
+
+    const addPlayer = (playerObj) => {
+        
+        if(_players.length < 2) {
+            const player = Player(playerObj.playerName)
+            _players.push(player)
+            console.log(_players);
+        }
+        else {
+            dom.hideForm()
+        }
+
+    const checkGame = (player) => {
+        player.getProp('moves') 
+    }    
+    }
+
+
+    return { addPlayer}
+
+
+})()
 
 
 const dom = (() => {
-        'use strict';
+    'use strict';
 
-        const _players = []
-        //Private Vars
-        const _form = document.getElementById("form")
-        let renderScore = () => {    
-         
-        }
-
-        _form.addEventListener("submit", (e) => {
-            e.preventDefault()
-            if(_players.length < 2) {
-                const data = libs.getFormData(e)
-                const newPlayer = Player(data.playerName)
-                _players.push(newPlayer)
-            }
-            else {
-                //Hides start card after two players have been added 
-                _form.parentElement.classList.add("hideClass")
-            }
-
-
-
-        })
-    
-
-        //Returning Moudles Methods and Props
-        return {
-        }
-
+    //Private Vars
+    const _form = document.getElementById("form")
+    let renderScore = () => {    
      
-        
-    
-    })();
-    
-    
+    }
+
+    const toogleForm = () => {
+        if(_form.parentElement.style.display === "none") {
+            _form.parentElement.style.display = "block"
+        }
+        else {
+            _form.parentElement.style.display = "none"
+        }
+    }
+    const hideForm = () => {_form.parentElement.style.display = "none"}
+    const showForm = () => {_form.parentElement.style.display = "block"}   
 
 
 
+    _form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const data = libs.getFormData(e)
+        game.addPlayer(data)
+        _form.reset()
+
+    })
+
+
+    //Returning Moudles Methods and Props
+    return {
+        toogleForm,
+        hideForm,
+        showForm
+    }
+
+ 
+    
+
+})();
 
 
 
