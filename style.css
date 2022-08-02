@@ -92,12 +92,17 @@ body>main>div:nth-child(1)>button {
 }
 
 .board {
-  border: 1px solid black;
+display: grid;
+margin-top: 50px;
+grid-template-columns: repeat(3, 150px);
+grid-template-rows: repeat(3, 150px);
+grid-gap: 2px;
+background-color: black;
+border: 1px black solid;
 }
-.row {
-  display: flex;
-  gap: 10px
-  /* flex-direction: column; */
+
+.cell {
+background-color: var(--color3)
 }
 /* The popup form - hidden by default */
 /* .form-popup {
