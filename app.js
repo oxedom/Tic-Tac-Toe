@@ -45,6 +45,7 @@ const Player = function (name) {
             if (typeof move == 'number' && 0 <= move && 9 > move)
             {
                 _moves.push(move)
+                console.log(_moves);
             }
             else { return new Error(`Error pushing to array: argument passed was ${move}`)}
         
@@ -64,33 +65,44 @@ const game = ( () => {
     let _currentPlayer = undefined;
 
     const tooglePlayer = () => {
-        if ( _currentPlayer === undefined) { return new Error('Current P is undefined')}
+    
         if (_currentPlayer === _players[0]) { _currentPlayer = _players[1]} 
         else { _currentPlayer = _players[0]}
     }
     const addPlayer = (playerObj) => {
         
-        if(_players.length < 1) {
+        if(_players.length < 2) {
             const player = Player(playerObj.playerName)
             _players.push(player)
-        }
-        else {
-            _currentPlayer = _players[0]
+            if(_players.length === 2) { 
+                _currentPlayer = _players[0]
             dom.hideEl('formContainer')
             dom.showEl('board')
+            }
         }
+
+        
 
     const checkGame = (player) => {
         player.getProp('moves') 
     }    
     }
+    const getCurrentPlayer = () => {
+        return _currentPlayer
+    }
 
     const handleClick = (event) => {
         let cellValue = event.path[0].attributes[0].value;
-        _players[_currentPlayer].addMove(cellValue)
+        console.log(_currentPlayer);
+        _currentPlayer.addMove(cellValue)
+    
+
+
+        tooglePlayer()
+
     }
 
-    return { addPlayer, handleClick}
+    return { addPlayer, handleClick, getCurrentPlayer}
 
 
 })()
