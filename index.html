@@ -27,11 +27,18 @@
                     <span> Enter your name!</span>
                     <span> Player One/Two</span>
                     <input type="text" name="playerName">
-                    <button type="submit"> Ready</button>
+                    <button class="btn" type="submit"> Ready</button>
                         </div>         
                 </form>
 
-                <h2 id="winnerCard" class="hideClass"></h2>
+                <div id="winnerCard" class="winnerCard hideClass ">
+                    <h1> And the winner is... <span id="winnerName"></span></h1>
+                    <h1> Better luck next time <span id=loserName></span></h1>
+                    <div class="centerflex">
+                        <button id="rematch-btn" class="btn"> Rematch?</button>
+                    </div>
+                </div>
+        
                     <div class="hideClass board" id="board">
 
                             <div value="1" class="cell"></div>

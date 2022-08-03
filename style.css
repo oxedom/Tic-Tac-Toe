@@ -69,11 +69,11 @@
     align-items: center;
 }
 
-#form button {
-    max-width: 100px;
-    min-width: 50px;
-    flex-grow: 1;
-    border-radius: 75px;
+.btn {
+  max-width: 100px;
+  min-width: 50px;
+  flex-grow: 1;
+  border-radius: 75px;
 }
 
 
@@ -154,9 +154,7 @@ background-color: var(--color3)
 /* Add some hover effects to buttons */
 /* .form-container .btn:hover, .open-button:hover {
   opacity: 1; */
-  .hideClass {
-    display: none;
-  }
+
 
   /* .noOpacity {
     opacity: 0;
@@ -174,10 +172,13 @@ background-color: var(--color3)
     transition-duration: 0.5s;
   }
 
-.blue {
-  background-color: blue;
+.winnerCard {
+  display: flex; 
+  flex-direction: column;
+  justify-content: center; 
+  align-content: center;
 }
 
-.red {
-  background-color: red;
+.hideClass {
+  display: none;
 }

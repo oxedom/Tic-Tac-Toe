@@ -35,11 +35,15 @@ const Player = function (name) {
             name: _name,
         }
     
-        const addScore = () => {  _score++ }
+        const addScore = () => {  _propObj.score++ }
 
         const getAllProps = () => {  return _propObj }
 
         const getProp = (prop) => {  return _propObj[prop]}
+
+        const clearMoves = () => { 
+            _propObj.moves = []
+        }
     
         const addMove = (move) => {
             if (0 <= move && 9 > move)
@@ -54,7 +58,8 @@ const Player = function (name) {
             addScore,
             getAllProps,
             getProp,
-            addMove
+            addMove,
+            clearMoves
         };
     };
 
@@ -96,13 +101,15 @@ const game = ( () => {
         console.log(`the answer is ${answer}`);
         return answer
     }    
-
+    const getWaitingPlayer = () => {
+        return _players.filter(p => p != _currentPlayer)[0]
+    }
     const getCurrentPlayer = () => {
         return _currentPlayer
     }
 
-    const handleClick = (event) => {
-        
+    const handleCellClick = (event) => {
+        event.stopPropagation()
         //Gets Cell Value from HTML Attribute
         let cellValue = parseInt(event.path[0].attributes[0].value);
         console.log(cellValue);
@@ -111,8 +118,10 @@ const game = ( () => {
             getCurrentPlayer().addMove(cellValue)
             event.path[0].innerText = getCurrentPlayer().getProp('name')
             if(CheckGame(getCurrentPlayer())) { 
+            getCurrentPlayer().addScore()
             dom.hideEl('board')
-            dom.changeText('winnerCard', getCurrentPlayer().getProp('name'))
+            dom.changeText('winnerName', getCurrentPlayer().getProp('name'))
+            dom.changeText('loserName', getWaitingPlayer().getProp('name'))
             dom.showEl('winnerCard')
     }
             tooglePlayer()
@@ -123,7 +132,15 @@ const game = ( () => {
    
     }
 
-    return { addPlayer, handleClick, getCurrentPlayer}
+    const handleRematchClick = () => {
+    getCurrentPlayer()
+    getWaitingPlayer()
+    _currentPlayer = _players[0]
+    libs.cellGetter(document.getElementById("board")).forEach(cell => cell.innerText = "")
+    // dom.hideEl('winnerCard')
+    // dom.showEl('board')
+    }
+    return { addPlayer, handleCellClick, getCurrentPlayer, getWaitingPlayer, handleRematchClick}
 
 })()
 
@@ -133,12 +150,16 @@ const dom = (() => {
     'use strict';
    
     //Private Vars
+    const _rematchBtn = document.getElementById('rematch-btn')
     const _form = document.getElementById("form")
     const _board = document.getElementById("board")
     const _cells = libs.cellGetter(_board)
     
     //ADDS EVENT Listenr to each cell
-    _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleClick(e)}))
+    _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleCellClick(e)}))
+    _rematchBtn.addEventListener('click', game.handleRematchClick())
+
+
 
     //Gets new user Data from Form sends it to Game OBJ to addPlayer and Resets Form
     _form.addEventListener("submit", (e) => {
@@ -147,6 +168,8 @@ const dom = (() => {
         game.addPlayer(data)
         _form.reset()
     })
+
+
 
     const showEl = (el) => { 
       
