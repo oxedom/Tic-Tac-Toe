@@ -133,8 +133,18 @@ const dom = (() => {
         _form.reset()
     })
 
-    const showEl = (el) => { document.getElementById(el).classList.remove('hideClass')}
-    const hideEl = (el) => { document.getElementById(el).classList.add('hideClass')}
+    const showEl = (el) => { 
+        
+        setTimeout( function() { 
+            document.getElementById(el).classList.remove('hideClass')
+        document.getElementById(el).classList.add('fadeIn') },500 )
+
+    }
+
+
+        const hideEl = (el) => { 
+        setTimeout( function() { document.getElementById(el).classList.add('hideClass') },500 )  
+         document.getElementById(el).classList.add('fadeOut') }
     //init
 
     //Returning Moudles Methods and Props

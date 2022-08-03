@@ -156,4 +156,17 @@ background-color: var(--color3)
   opacity: 1; */
   .hideClass {
     display: none;
+    opacity: 0;
+  }
+
+  .fadeOut {
+    opacity: 0.0;
+    transition: opacity ease-in-out;
+    transition-duration: 0.5s;
+  }
+
+  .fadeIn {
+    opacity: 1;
+    transition: opacity;
+    transition-duration: 0.5s;
   }
