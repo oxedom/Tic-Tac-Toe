@@ -42,6 +42,7 @@ const Player = function (name) {
         const getProp = (prop) => {  return _propObj[prop]}
 
         const clearMoves = () => { 
+            _moves = []
             _propObj.moves = []
         }
     
@@ -49,7 +50,7 @@ const Player = function (name) {
             if (0 <= move && 9 > move)
             {
                 _moves.push(move)
-                console.log(`added ${move} to ${_name}, current moves are ${_moves}`);
+                console.log(`added ${move} to ${_name}, current moves are ${_propObj.moves}`);
             }
             else { return new Error(`Error pushing to array: argument passed was ${move}`)}
         
@@ -86,8 +87,6 @@ const game = ( () => {
             dom.showEl('board')
             }
         }
-
-    
     }
 
     function CheckGame(player){
@@ -101,30 +100,37 @@ const game = ( () => {
         console.log(`the answer is ${answer}`);
         return answer
     }    
-    const getWaitingPlayer = () => {
+    const _getWaitingPlayer = () => {
         return _players.filter(p => p != _currentPlayer)[0]
     }
-    const getCurrentPlayer = () => {
+    const ___getCurrentPlayer = () => {
         return _currentPlayer
     }
 
     const handleCellClick = (event) => {
-        event.stopPropagation()
+    
         //Gets Cell Value from HTML Attribute
         let cellValue = parseInt(event.path[0].attributes[0].value);
-        console.log(cellValue);
-        //Checks if innertext is empty to place a cell 
+     //Checks if innertext is empty to place a cell 
         if(event.path[0].innerText.length < 1) {
-            getCurrentPlayer().addMove(cellValue)
-            event.path[0].innerText = getCurrentPlayer().getProp('name')
-            if(CheckGame(getCurrentPlayer())) { 
-            getCurrentPlayer().addScore()
+            //Adds Cell Value to player moves array using addMove
+            ___getCurrentPlayer().addMove(cellValue)
+            //Sets Cell inner text to players name 
+            event.path[0].innerText = ___getCurrentPlayer().getProp('name')
+            //If boolean check if curent player has won
+            if(CheckGame(___getCurrentPlayer())) { 
+            //If Player wins add score to his score
+            ___getCurrentPlayer().addScore()
+            //Hide game board 
             dom.hideEl('board')
-            dom.changeText('winnerName', getCurrentPlayer().getProp('name'))
-            dom.changeText('loserName', getWaitingPlayer().getProp('name'))
+            //Insert text
+            dom.changeText('winnerName', ___getCurrentPlayer().getProp('name'))
+            dom.changeText('loserName', _getWaitingPlayer().getProp('name'))
+            //Show Winner Card Element
             dom.showEl('winnerCard')
     }
-            tooglePlayer()
+            else { tooglePlayer()}
+          
         }
         
 
@@ -132,15 +138,24 @@ const game = ( () => {
    
     }
 
-    const handleRematchClick = () => {
-    getCurrentPlayer()
-    getWaitingPlayer()
-    _currentPlayer = _players[0]
-    libs.cellGetter(document.getElementById("board")).forEach(cell => cell.innerText = "")
-    // dom.hideEl('winnerCard')
-    // dom.showEl('board')
-    }
-    return { addPlayer, handleCellClick, getCurrentPlayer, getWaitingPlayer, handleRematchClick}
+
+    function handleRematchClick () {
+        console.log('handleRematchClick has fired');
+        //IT'S SUPPOSED TO CLEAR PLAYER MOVES not always working proprley hmmm
+        __getCurrentPlayer().clearMoves()
+        _getWaitingPlayer().clearMoves()
+        //SETS current Player to first Player 1 (first one who wrote his username)
+        _currentPlayer = _players[0]
+        //Resets all cells
+        libs.cellGetter(document.getElementById("board")).forEach(cell => cell.innerText = "")
+        //Hides winnerCard element
+        dom.hideEl('winnerCard')
+        //Shows Board element
+        dom.showEl('board')
+        }
+
+
+    return { addPlayer, handleCellClick, handleRematchClick}
 
 })()
 
@@ -157,7 +172,12 @@ const dom = (() => {
     
     //ADDS EVENT Listenr to each cell
     _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleCellClick(e)}))
-    _rematchBtn.addEventListener('click', game.handleRematchClick())
+
+    //Binding handleRematchClick
+    _rematchBtn.addEventListener('click', () => { 
+        e.preventDefault()
+        game.handleRematchClick()
+    })
 
 
 
