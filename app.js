@@ -42,7 +42,6 @@ const Player = function (name) {
         const getProp = (prop) => {  return _propObj[prop]}
 
         const clearMoves = () => { 
-            _moves = []
             _propObj.moves = []
         }
     
@@ -103,28 +102,29 @@ const game = ( () => {
     const _getWaitingPlayer = () => {
         return _players.filter(p => p != _currentPlayer)[0]
     }
-    const ___getCurrentPlayer = () => {
+    const _getCurrentPlayer = () => {
         return _currentPlayer
     }
 
     const handleCellClick = (event) => {
-    
+        event.preventDefault()
+        event.stopPropagation() 
         //Gets Cell Value from HTML Attribute
         let cellValue = parseInt(event.path[0].attributes[0].value);
      //Checks if innertext is empty to place a cell 
         if(event.path[0].innerText.length < 1) {
             //Adds Cell Value to player moves array using addMove
-            ___getCurrentPlayer().addMove(cellValue)
+            _getCurrentPlayer().addMove(cellValue)
             //Sets Cell inner text to players name 
-            event.path[0].innerText = ___getCurrentPlayer().getProp('name')
+            event.path[0].innerText = _getCurrentPlayer().getProp('name')
             //If boolean check if curent player has won
-            if(CheckGame(___getCurrentPlayer())) { 
+            if(CheckGame(_getCurrentPlayer())) { 
             //If Player wins add score to his score
-            ___getCurrentPlayer().addScore()
+            _getCurrentPlayer().addScore()
             //Hide game board 
             dom.hideEl('board')
             //Insert text
-            dom.changeText('winnerName', ___getCurrentPlayer().getProp('name'))
+            dom.changeText('winnerName', _getCurrentPlayer().getProp('name'))
             dom.changeText('loserName', _getWaitingPlayer().getProp('name'))
             //Show Winner Card Element
             dom.showEl('winnerCard')
@@ -142,8 +142,7 @@ const game = ( () => {
     function handleRematchClick () {
         console.log('handleRematchClick has fired');
         //IT'S SUPPOSED TO CLEAR PLAYER MOVES not always working proprley hmmm
-        __getCurrentPlayer().clearMoves()
-        _getWaitingPlayer().clearMoves()
+      
         //SETS current Player to first Player 1 (first one who wrote his username)
         _currentPlayer = _players[0]
         //Resets all cells
@@ -152,10 +151,12 @@ const game = ( () => {
         dom.hideEl('winnerCard')
         //Shows Board element
         dom.showEl('board')
+        _getCurrentPlayer().clearMoves()
+        _getWaitingPlayer().clearMoves()
         }
 
 
-    return { addPlayer, handleCellClick, handleRematchClick}
+    return { addPlayer, handleCellClick, handleRematchClick, _getWaitingPlayer, _getCurrentPlayer}
 
 })()
 
@@ -174,7 +175,7 @@ const dom = (() => {
     _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleCellClick(e)}))
 
     //Binding handleRematchClick
-    _rematchBtn.addEventListener('click', () => { 
+    _rematchBtn.addEventListener('click', (e) => { 
         e.preventDefault()
         game.handleRematchClick()
     })
