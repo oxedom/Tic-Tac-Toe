@@ -45,7 +45,7 @@ const Player = function (name) {
             if (0 <= move && 9 > move)
             {
                 _moves.push(move)
-                console.log(_moves);
+                console.log(`added ${move} to ${_name}, current moves are ${_moves}`);
             }
             else { return new Error(`Error pushing to array: argument passed was ${move}`)}
         
@@ -86,11 +86,12 @@ const game = ( () => {
     }
 
     function CheckGame(player){
-        const winning = [[0,1,2], [3,4,5, [6,7,8]],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]]
+        const winning = [[1,2,3], [4,5,6], [7,8,9],
+        [1,4,7], [2,5,8], [3,6,9],
+        [1,5,9], [3,5,7]]
     
-        let moves = player.getProp('moves') 
+        let moves = player.getProp('moves').sort()
+        //returns true boolean
         let answer = winning.some(win => win.every(p => moves.includes(p)))
         console.log(`the answer is ${answer}`);
         return answer
@@ -103,13 +104,17 @@ const game = ( () => {
     const handleClick = (event) => {
         
         //Gets Cell Value from HTML Attribute
-        let cellValue = event.path[0].attributes[0].value;
+        let cellValue = parseInt(event.path[0].attributes[0].value);
         console.log(cellValue);
         //Checks if innertext is empty to place a cell 
         if(event.path[0].innerText.length < 1) {
             getCurrentPlayer().addMove(cellValue)
-            event.path[0].innerText  = getCurrentPlayer().getProp('name')
-            CheckGame(getCurrentPlayer())
+            event.path[0].innerText = getCurrentPlayer().getProp('name')
+            if(CheckGame(getCurrentPlayer())) { 
+            dom.hideEl('board')
+            dom.changeText('winnerCard', getCurrentPlayer().getProp('name'))
+            dom.showEl('winnerCard')
+    }
             tooglePlayer()
         }
         
@@ -158,12 +163,15 @@ const dom = (() => {
         const hideEl = (el) => { 
         setTimeout( function() { document.getElementById(el).classList.add('hideClass') },500 )  
          document.getElementById(el).classList.add('fadeOut') }
+
+        const changeText = (id,text) => { document.getElementById(id).innerText = text }
     //init
 
     //Returning Moudles Methods and Props
     return {
         showEl,
-        hideEl
+        hideEl,
+        changeText
     }
 
  
