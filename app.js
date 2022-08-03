@@ -42,7 +42,7 @@ const Player = function (name) {
         const getProp = (prop) => {  return _propObj[prop]}
     
         const addMove = (move) => {
-            if (typeof move == 'number' && 0 <= move && 9 > move)
+            if (0 <= move && 9 > move)
             {
                 _moves.push(move)
                 console.log(_moves);
@@ -61,6 +61,7 @@ const Player = function (name) {
     
 const game = ( () => {
 
+  
     const _players = []
     let _currentPlayer = undefined;
 
@@ -81,38 +82,46 @@ const game = ( () => {
             }
         }
 
-        
-
-    const checkGame = (player) => {
-        player.getProp('moves') 
-    }    
+    
     }
+
+    function CheckGame(player){
+        const winning = [[0,1,2], [3,4,5, [6,7,8]],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]]
+    
+        let moves = player.getProp('moves') 
+        let answer = winning.some(win => win.every(p => moves.includes(p)))
+        console.log(`the answer is ${answer}`);
+        return answer
+    }    
+
     const getCurrentPlayer = () => {
         return _currentPlayer
     }
 
     const handleClick = (event) => {
+        
+        //Gets Cell Value from HTML Attribute
         let cellValue = event.path[0].attributes[0].value;
-        console.log(_currentPlayer);
         console.log(cellValue);
-        _currentPlayer.addMove(cellValue)
-    
+        //Checks if innertext is empty to place a cell 
+        if(event.path[0].innerText.length < 1) {
+            getCurrentPlayer().addMove(cellValue)
+            event.path[0].innerText  = getCurrentPlayer().getProp('name')
+            CheckGame(getCurrentPlayer())
+            tooglePlayer()
+        }
+        
 
 
-        tooglePlayer()
-
+   
     }
 
     return { addPlayer, handleClick, getCurrentPlayer}
 
-
 })()
 
-
-const board = (() => {
-
-    
-})
 
 
 const dom = (() => {
@@ -123,6 +132,7 @@ const dom = (() => {
     const _board = document.getElementById("board")
     const _cells = libs.cellGetter(_board)
     
+    //ADDS EVENT Listenr to each cell
     _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleClick(e)}))
 
     //Gets new user Data from Form sends it to Game OBJ to addPlayer and Resets Form
@@ -134,13 +144,16 @@ const dom = (() => {
     })
 
     const showEl = (el) => { 
-        
-        setTimeout( function() { 
-            document.getElementById(el).classList.remove('hideClass')
-        document.getElementById(el).classList.add('fadeIn') },500 )
+      
+        // document.getElementById(el).classList.add('noOpacity')
+    
+        setTimeout( function() {
+        document.getElementById(el).classList.remove('hideClass') 
+        document.getElementById(el).classList.add('fadeIn') 
+
+    },500 )
 
     }
-
 
         const hideEl = (el) => { 
         setTimeout( function() { document.getElementById(el).classList.add('hideClass') },500 )  
