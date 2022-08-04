@@ -23,7 +23,7 @@
         <div class="centerflex">
             <div class="start-card" id="formContainer">
 
-                <form id="form" action="submit">
+                <form id="form" action="submit" class="centerflex">
                     <span> Enter your name!</span>
                     <span> Player One/Two</span>
                     <input type="text" name="playerName">
@@ -38,8 +38,22 @@
                         <button id="rematch-btn" class="btn"> Rematch?</button>
                     </div>
                 </div>
-        
-                    <div class="hideClass board" id="board">
+                    <div>
+
+                        <div id="playerCards" >
+                            <div class="playerCard" id="playerCardOne">
+                                <p>Name:<span></span></p>
+                                <p>Score:<span></span></p>
+                            </div>
+    
+                            <div class="playerCard" id="playerCardTwo">
+                                <p>Name:<span></span></p>
+                                <p>Score:<span></span></p>
+                            </div>
+                        </div>
+           
+
+                        <div class="board hideClass" id="board">
 
                             <div value="1" class="cell"></div>
                             <div value="2" class="cell"></div>
@@ -52,6 +66,8 @@
                             <div value="9" class="cell"></div>
                
                     </div>
+                    </div>
+           
              
           
             </div>

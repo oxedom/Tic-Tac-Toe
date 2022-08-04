@@ -77,13 +77,21 @@ const game = ( () => {
     }
     const addPlayer = (playerObj) => {
         
+        if(_players.length < 1) {
+
+            dom.setPlayerCard(1,playerObj)
+        }
+        else {
+            dom.setPlayerCard(2,playerObj)
+        }
+
         if(_players.length < 2) {
             const player = Player(playerObj.playerName)
             _players.push(player)
             if(_players.length === 2) { 
                 _currentPlayer = _players[0]
-            dom.hideEl('formContainer')
-            dom.showEl('board')
+            dom.slowHide('formContainer')
+            dom.slowShow('board')
             }
         }
     }
@@ -122,12 +130,12 @@ const game = ( () => {
             //If Player wins add score to his score
             _getCurrentPlayer().addScore()
             //Hide game board 
-            dom.hideEl('board')
+            dom.slowHide('board')
             //Insert text
             dom.changeText('winnerName', _getCurrentPlayer().getProp('name'))
             dom.changeText('loserName', _getWaitingPlayer().getProp('name'))
             //Show Winner Card Element
-            dom.showEl('winnerCard')
+            dom.slowShow('winnerCard')
     }
             else { tooglePlayer()}
           
@@ -148,9 +156,9 @@ const game = ( () => {
         //Resets all cells
         libs.cellGetter(document.getElementById("board")).forEach(cell => cell.innerText = "")
         //Hides winnerCard element
-        dom.hideEl('winnerCard')
+        dom.slowHide('winnerCard')
         //Shows Board element
-        dom.showEl('board')
+        dom.slowShow('board')
         _getCurrentPlayer().clearMoves()
         _getWaitingPlayer().clearMoves()
         }
@@ -170,7 +178,16 @@ const dom = (() => {
     const _form = document.getElementById("form")
     const _board = document.getElementById("board")
     const _cells = libs.cellGetter(_board)
+    const _playerCardOne = document.getElementById('playerCardOne')
+    const _playerCardTwo = document.getElementById('playerCardTwo')
+
+//     //Name Span tag
+//   _playerCardOne.childNodes[1].childNodes[1].innerText = 'cock'
+//     //age Span tag 
+//   _playerCardOne.childNodes[3].childNodes[1].innerText = '1'
+
     
+
     //ADDS EVENT Listenr to each cell
     _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleCellClick(e)}))
 
@@ -191,31 +208,44 @@ const dom = (() => {
     })
 
 
-
-    const showEl = (el) => { 
-      
-        // document.getElementById(el).classList.add('noOpacity')
-    
-        setTimeout( function() {
-        document.getElementById(el).classList.remove('hideClass') 
-        document.getElementById(el).classList.add('fadeIn') 
-
-    },500 )
-
+    const setPlayerCard = (playerNumber, playerOb) => {
+        //Added all the player props to the card
+ 
+        if(playerNumber == 1) {
+            _playerCardOne.childNodes[1].childNodes[1].innerText = playerOb.playerName
+            _playerCardOne.childNodes[3].childNodes[1].innerText = 0
+        }
+        if(playerNumber == 2) {
+            _playerCardTwo.childNodes[1].childNodes[1].innerText = playerOb.playerName
+            _playerCardTwo.childNodes[3].childNodes[1].innerText = 0
+        }
+   
     }
 
-        const hideEl = (el) => { 
-        setTimeout( function() { document.getElementById(el).classList.add('hideClass') },500 )  
-         document.getElementById(el).classList.add('fadeOut') }
 
-        const changeText = (id,text) => { document.getElementById(id).innerText = text }
+    const slowShow = (el) => { 
+        setTimeout( function() {
+        document.getElementById(el).classList.remove('hideClass') 
+        document.getElementById(el).classList.add('fadeIn') },500 ) }
+
+    const slowHide = (el) => { 
+        setTimeout( function() { document.getElementById(el).classList.add('hideClass') },500 )  
+        document.getElementById(el).classList.add('fadeOut') }
+
+    const changeText = (id,text) => { document.getElementById(id).innerText = text }
+
+    const _instantHide = (el) => {
+        document.getElementById(el).classList.add('hideClass')
+    }
     //init
+
 
     //Returning Moudles Methods and Props
     return {
-        showEl,
-        hideEl,
-        changeText
+        slowShow,
+        slowHide,
+        changeText,
+        setPlayerCard
     }
 
  
