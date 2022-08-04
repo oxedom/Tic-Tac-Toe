@@ -129,6 +129,15 @@ const game = ( () => {
             if(CheckGame(_getCurrentPlayer())) { 
             //If Player wins add score to his score
             _getCurrentPlayer().addScore()
+            let score = _getCurrentPlayer().getAllProps().score
+            if(_players[1].name == _getCurrentPlayer().getProp('name')) {
+              
+                dom.changeText('scoreTwo',score)
+            }
+            else {
+        
+                dom.changeText('scoreOne',score)
+            }
             //Hide game board 
             dom.slowHide('board')
             //Insert text
@@ -181,13 +190,10 @@ const dom = (() => {
     const _playerCardOne = document.getElementById('playerCardOne')
     const _playerCardTwo = document.getElementById('playerCardTwo')
 
-//     //Name Span tag
-//   _playerCardOne.childNodes[1].childNodes[1].innerText = 'cock'
-//     //age Span tag 
-//   _playerCardOne.childNodes[3].childNodes[1].innerText = '1'
+    const _playerOneScore = _playerCardOne.childNodes[3].childNodes[1]
+    const _playerTwoScore = _playerCardTwo.childNodes[3].childNodes[1]
 
     
-
     //ADDS EVENT Listenr to each cell
     _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleCellClick(e)}))
 
