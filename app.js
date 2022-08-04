@@ -22,7 +22,7 @@ const libs = (() => {
 
 })()
 
-
+//Factory function
 const Player = function (name) {
         'use strict';
         let _score = 0;
