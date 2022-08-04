@@ -123,6 +123,7 @@ const game = ( () => {
         let cellValue = parseInt(event.path[0].attributes[0].value);
      //Checks if innertext is empty to place a cell 
         if(event.path[0].innerText.length < 1) {
+
             //Adds Cell Value to player moves array using addMove
             _getCurrentPlayer().addMove(cellValue)
             //Sets Cell inner text to players name 
@@ -132,7 +133,6 @@ const game = ( () => {
             //If Player wins add score to his score
             _getCurrentPlayer().addScore()
 
-            
 
             //Hide game board 
             dom.slowHide('board')
@@ -147,21 +147,13 @@ const game = ( () => {
                 dom.changeText('scoreTwo', _getCurrentPlayer().getProp('score'))
             }
          
-           
-
             //Show Winner Card Element
             dom.slowShow('winnerCard')
     }
-            if(_getCurrentPlayer().getProp('moves').length + _getWaitingPlayer().getProp('moves').length > 8 )
-                { handleNewGame()}
+
 
             else { tooglePlayer()}
-          
         }
-        
-
-
-   
     }
 
     function handleNewGame(event) {
