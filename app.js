@@ -43,13 +43,11 @@ const Player = function (name) {
 
         const clearMoves = () => { 
 
-            for (let index = 0; index < 5; index++) {
-                console.log(index);
-                console.log(_moves);
+            for (let index = 0; index < 6; index++) {
                 _moves.pop()
             }
-     
-        }
+
+
     
         const addMove = (move) => {
             if (0 <= move && 9 > move)

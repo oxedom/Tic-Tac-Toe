@@ -48,6 +48,12 @@
     align-items: center;
 }
 
+.centergrid {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
 
 .start-card {
     padding: 10px;
