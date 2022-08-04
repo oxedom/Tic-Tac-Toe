@@ -42,7 +42,13 @@ const Player = function (name) {
         const getProp = (prop) => {  return _propObj[prop]}
 
         const clearMoves = () => { 
-            _moves = []
+
+            for (let index = 0; index < 5; index++) {
+                console.log(index);
+                console.log(_moves);
+                _moves.pop()
+            }
+     
         }
     
         const addMove = (move) => {
