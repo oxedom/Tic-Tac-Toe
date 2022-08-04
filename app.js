@@ -68,7 +68,6 @@ const Player = function (name) {
     
 const game = ( () => {
 
-  
     const _players = []
     let _currentPlayer = undefined;
 
