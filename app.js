@@ -42,10 +42,12 @@ const Player = function (name) {
         const getProp = (prop) => {  return _propObj[prop]}
 
         const clearMoves = () => { 
+
             for (let index = 0; index < 6; index++) {
                 _moves.pop()
             }
-        }
+
+
     
         const addMove = (move) => {
             if (0 <= move && 9 > move)
