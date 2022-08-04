@@ -152,6 +152,9 @@ const game = ( () => {
             //Show Winner Card Element
             dom.slowShow('winnerCard')
     }
+            if(_getCurrentPlayer().getProp('moves').length + _getWaitingPlayer().getProp('moves').length > 8 )
+                { handleNewGame()}
+
             else { tooglePlayer()}
           
         }
@@ -159,6 +162,16 @@ const game = ( () => {
 
 
    
+    }
+
+    function handleNewGame(event) {
+        event.preventDefault()
+        console.log('handleNewGame has fired');
+        for (let index = 0; index < 2; index++) {_players.pop()}
+        dom.slowHide('board')
+        dom.slowHide('winnerCard')
+        dom.slowHide('playerCards')
+        dom.slowShow('formContainer')
     }
 
 
@@ -179,7 +192,7 @@ const game = ( () => {
         }
 
 
-    return { addPlayer, handleCellClick, handleRematchClick, _getWaitingPlayer, _getCurrentPlayer}
+    return { addPlayer, handleCellClick, handleRematchClick, handleNewGame}
 
 })()
 
@@ -195,11 +208,12 @@ const dom = (() => {
     const _cells = libs.cellGetter(_board)
     const _playerCardOne = document.getElementById('playerCardOne')
     const _playerCardTwo = document.getElementById('playerCardTwo')
-
-    const _playerOneScore = _playerCardOne.childNodes[3].childNodes[1]
-    const _playerTwoScore = _playerCardTwo.childNodes[3].childNodes[1]
-
+    const newGame = document.getElementById('newGame')
     
+
+    newGame.addEventListener('click', (e) => { game.handleNewGame(e)})
+
+
     //ADDS EVENT Listenr to each cell
     _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleCellClick(e)}))
 
@@ -257,6 +271,7 @@ const dom = (() => {
         slowShow,
         slowHide,
         changeText,
+        
         setPlayerCard
     }
 
