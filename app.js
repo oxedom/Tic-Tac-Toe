@@ -34,7 +34,7 @@ const Player = function (name) {
             moves: _moves,
             name: _name,
         }
-    
+
         const addScore = () => {  _propObj.score++ }
 
         const getAllProps = () => {  return _propObj }
@@ -42,7 +42,7 @@ const Player = function (name) {
         const getProp = (prop) => {  return _propObj[prop]}
 
         const clearMoves = () => { 
-            _propObj.moves = []
+            _moves = []
         }
     
         const addMove = (move) => {
@@ -92,6 +92,7 @@ const game = ( () => {
                 _currentPlayer = _players[0]
             dom.slowHide('formContainer')
             dom.slowShow('board')
+            dom.slowShow('playerCards')
             }
         }
     }
@@ -129,20 +130,24 @@ const game = ( () => {
             if(CheckGame(_getCurrentPlayer())) { 
             //If Player wins add score to his score
             _getCurrentPlayer().addScore()
-            let score = _getCurrentPlayer().getAllProps().score
-            if(_players[1].name == _getCurrentPlayer().getProp('name')) {
-              
-                dom.changeText('scoreTwo',score)
-            }
-            else {
-        
-                dom.changeText('scoreOne',score)
-            }
+
+            
+
             //Hide game board 
             dom.slowHide('board')
             //Insert text
             dom.changeText('winnerName', _getCurrentPlayer().getProp('name'))
             dom.changeText('loserName', _getWaitingPlayer().getProp('name'))
+
+            if(_getCurrentPlayer() == _players[0]) {
+                dom.changeText('scoreOne', _getCurrentPlayer().getProp('score'))
+            }
+            else if (_getCurrentPlayer() == _players[1]) {
+                dom.changeText('scoreTwo', _getCurrentPlayer().getProp('score'))
+            }
+         
+           
+
             //Show Winner Card Element
             dom.slowShow('winnerCard')
     }
@@ -163,7 +168,7 @@ const game = ( () => {
         //SETS current Player to first Player 1 (first one who wrote his username)
         _currentPlayer = _players[0]
         //Resets all cells
-        libs.cellGetter(document.getElementById("board")).forEach(cell => cell.innerText = "")
+        libs.cellGetter(document.getElementById("board")).forEach(cell => cell.textContent = "")
         //Hides winnerCard element
         dom.slowHide('winnerCard')
         //Shows Board element
