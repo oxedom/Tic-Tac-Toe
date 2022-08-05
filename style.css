@@ -22,11 +22,20 @@
     justify-content: space-between;
 }
 
+.announcement {
+  position: relative;
+  text-align: center;
+  width: 450px;
+  height: auto;
+  border: black 1px solid;
+  background-color: var(--color2);
+}
 .header {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: var(--color2)
+    background-color: var(--color2);
+    font-size: 16px;
 }
 
 .footer {
@@ -78,6 +87,10 @@
     flex-direction: column;
 }
 
+#newGame:hover {
+  transform: scale(1.1);
+  font-weight: 500;
+}
 .playerCard {
   gap: 10px;
   width: 100px;

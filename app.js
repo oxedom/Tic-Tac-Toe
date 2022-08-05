@@ -48,8 +48,9 @@ const Player = function (name) {
         }
     
         const addMove = (move) => {
-            if (0 <= move && 9 > move)
+            if (0 <= move && 10 > move)
             {
+                console.log('Add Player Move has fired');
                 _moves.push(move)
                 console.log(`added ${move} to ${_name}, current moves are ${_propObj.moves}`);
             }
@@ -103,6 +104,17 @@ const game = ( () => {
         [1,4,7], [2,5,8], [3,6,9],
         [1,5,9], [3,5,7]]
     
+        if(_checkTie()) {
+            
+            setTimeout(function(){
+                dom.slowShow('announcement')
+                dom.changeText('announcement', 'The Game is a tie!')
+                return},1000)
+            setTimeout(function(){
+                dom.slowHide('announcement')
+                handleRematchClick()
+            },2000)    
+        }
         let moves = player.getProp('moves').sort()
         //returns true boolean
         let answer = winning.some(win => win.every(p => moves.includes(p)))
@@ -125,6 +137,8 @@ const game = ( () => {
         if(event.path[0].innerText.length < 1) {
 
             //Adds Cell Value to player moves array using addMove
+            console.log(cellValue);
+            
             _getCurrentPlayer().addMove(cellValue)
             //Sets Cell inner text to players name 
             event.path[0].innerText = _getCurrentPlayer().getProp('name')
@@ -183,6 +197,11 @@ const game = ( () => {
         _getWaitingPlayer().clearMoves()
         }
 
+    function _checkTie(){
+        let totalMoves = _getCurrentPlayer().getProp('moves').length + _getWaitingPlayer().getProp('moves').length
+        if(totalMoves == 9) { return true}
+        else { return false}
+    }
 
     return { addPlayer, handleCellClick, handleRematchClick, handleNewGame}
 
@@ -208,7 +227,7 @@ const dom = (() => {
 
     //ADDS EVENT Listenr to each cell
     _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleCellClick(e)}))
-
+    console.log(_cells);
     //Binding handleRematchClick
     _rematchBtn.addEventListener('click', (e) => { 
         e.preventDefault()
