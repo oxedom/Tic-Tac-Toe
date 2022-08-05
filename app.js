@@ -50,9 +50,9 @@ const Player = function (name) {
         const addMove = (move) => {
             if (0 <= move && 10 > move)
             {
-                console.log('Add Player Move has fired');
+                // console.log('Add Player Move has fired');
                 _moves.push(move)
-                console.log(`added ${move} to ${_name}, current moves are ${_propObj.moves}`);
+                // console.log(`added ${move} to ${_name}, current moves are ${_propObj.moves}`);
             }
             else { return new Error(`Error pushing to array: argument passed was ${move}`)}
         
@@ -77,7 +77,7 @@ const game = ( () => {
         if (_currentPlayer === _players[0]) { _currentPlayer = _players[1]} 
         else { _currentPlayer = _players[0]}
     }
-    const addPlayer = (playerObj) => {
+    const _addPlayer = (playerObj) => {
         
         if(_players.length < 1) {
 
@@ -118,7 +118,7 @@ const game = ( () => {
         let moves = player.getProp('moves').sort()
         //returns true boolean
         let answer = winning.some(win => win.every(p => moves.includes(p)))
-        console.log(`the answer is ${answer}`);
+        // console.log(`the answer is ${answer}`);
         return answer
     }    
     const _getWaitingPlayer = () => {
@@ -128,6 +128,10 @@ const game = ( () => {
         return _currentPlayer
     }
 
+    const handleNewPlayer = (e) => {
+        const data = libs.getFormData(e)
+        _addPlayer(data)
+    }
     const handleCellClick = (event) => {
         event.preventDefault()
         event.stopPropagation() 
@@ -137,7 +141,7 @@ const game = ( () => {
         if(event.path[0].innerText.length < 1) {
 
             //Adds Cell Value to player moves array using addMove
-            console.log(cellValue);
+            // console.log(cellValue);
             
             _getCurrentPlayer().addMove(cellValue)
             //Sets Cell inner text to players name 
@@ -172,7 +176,7 @@ const game = ( () => {
 
     function handleNewGame(event) {
         event.preventDefault()
-        console.log('handleNewGame has fired');
+        // console.log('handleNewGame has fired');
         for (let index = 0; index < 2; index++) {_players.pop()}
         dom.slowHide('board')
         dom.slowHide('winnerCard')
@@ -182,7 +186,7 @@ const game = ( () => {
 
 
     function handleRematchClick () {
-        console.log('handleRematchClick has fired');
+        // console.log('handleRematchClick has fired');
         //IT'S SUPPOSED TO CLEAR PLAYER MOVES not always working proprley hmmm
       
         //SETS current Player to first Player 1 (first one who wrote his username)
@@ -203,7 +207,7 @@ const game = ( () => {
         else { return false}
     }
 
-    return { addPlayer, handleCellClick, handleRematchClick, handleNewGame}
+    return { handleCellClick, handleRematchClick, handleNewGame, handleNewPlayer}
 
 })()
 
@@ -227,7 +231,7 @@ const dom = (() => {
 
     //ADDS EVENT Listenr to each cell
     _cells.forEach(cell => cell.addEventListener('click', (e) => {   game.handleCellClick(e)}))
-    console.log(_cells);
+    // console.log(_cells);
     //Binding handleRematchClick
     _rematchBtn.addEventListener('click', (e) => { 
         e.preventDefault()
@@ -236,11 +240,10 @@ const dom = (() => {
 
 
 
-    //Gets new user Data from Form sends it to Game OBJ to addPlayer and Resets Form
+    //Gets new user Data from Form sends it to Game OBJ to handleNewPlayer and Resets Form
     _form.addEventListener("submit", (e) => {
         e.preventDefault()
-        const data = libs.getFormData(e)
-        game.addPlayer(data)
+        game.handleNewPlayer(e)
         _form.reset()
     })
 
@@ -271,18 +274,14 @@ const dom = (() => {
 
     const changeText = (id,text) => { document.getElementById(id).innerText = text }
 
-    const _instantHide = (el) => {
-        document.getElementById(el).classList.add('hideClass')
-    }
-    //init
 
+    //init
 
     //Returning Moudles Methods and Props
     return {
         slowShow,
         slowHide,
         changeText,
-        
         setPlayerCard
     }
 
