@@ -140,7 +140,7 @@ const game = ( () => {
         
         let cellValue = parseInt(event.composedPath()[0].attributes.value);
      //Checks if innertext is empty to place a cell 
-        if(event.path[0].innerText.length < 1) {
+        if(event.composedPath()[0].innerText.length < 1) {
 
             //Adds Cell Value to player moves array using addMove
             // console.log(cellValue);
