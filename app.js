@@ -147,7 +147,7 @@ const game = ( () => {
             
             _getCurrentPlayer().addMove(cellValue)
             //Sets Cell inner text to players name 
-            event.path[0].innerText = _getCurrentPlayer().getProp('name')
+            event.composedPath()[0].innerText = _getCurrentPlayer().getProp('name')
             //If boolean check if curent player has won
             if(CheckGame(_getCurrentPlayer())) { 
             //If Player wins add score to his score
