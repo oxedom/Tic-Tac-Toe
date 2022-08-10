@@ -138,6 +138,7 @@ const game = (() => {
         event.stopPropagation()
         //Gets Cell Value from HTML Attribute
 
+
         let cellValue = parseInt(event.composedPath()[0].attributes[0].value);
         //Checks if innertext is empty to place a cell 
         if (event.composedPath()[0].innerText.length < 1) {

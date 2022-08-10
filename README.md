@@ -4,8 +4,8 @@ Tic Tac Toe Assignment - TheOdinProject
 
 Summary of the project:
 
-This isn't my first Tic Tac Toe project although it was my first time implementing a revealing Moudle pattern design pattern in JS, as well as gaining a depper understanding of Objects and Object Constructors. The project wasn't easy at first but after laying out a structure of three IFFE Objects (Dom Game and libs) and one Player Factory Function I started understanding the importance of
-design patterns. Reuseablity, easy to add and remove features and a easier way to state manage the app. 
+This isn't my first Tic Tac Toe project although it was my first time implementing a revealing Moudle pattern design pattern in JS, as well as gaining a depper understanding of Objects and Object Constructors. The project wasn't easy at first but after laying out a structure of three IFFE modules (Dom Game and libs) and one Player Factory Function I started understanding the importance of
+design patterns. Reuseablity, easy to implement,remove features and a better way to state manage.
 
 I'm not going to lie, there a few odd functions floating around in that app.js to make the game work (shout out to clearMoves() on line 44 and _checkTie() around line 200... ) but I do like the elegent way of checking for wins in the _checkWin() function, using some and every array methods.
 
