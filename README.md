@@ -14,7 +14,6 @@ It's not perfect but It does more than enough for X and O and more importantly I
 Oh by the way I added my planning notes down bellow...
 
 
-
 Planning stage // 
 
 Features I want
